@@ -16,20 +16,38 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.iter().cloned().map(first_part).sum()
+        first_part(input.to_vec())
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
-        input.iter().cloned().map(second_part).sum()
+        second_part(input.to_vec())
     }
 }
 
-fn first_part (mass:isize) -> isize {
-    0
+fn first_part (expenses: Vec<isize>) -> isize {
+    let mut res = 0;
+    for i in &expenses {
+        for j in &expenses {
+            if i + j == 2020 {
+                res = i * j;
+            }
+        }
+    }
+    res
 }
 
-fn second_part (mass: isize) -> isize {
-    0
+fn second_part (expenses: Vec<isize>) -> isize {
+    let mut res = 0;
+    for i in &expenses {
+        for j in &expenses {
+            for k in &expenses {
+                if i + j + k == 2020 {
+                    res = i * j * k;
+                }
+            }
+        }
+    }
+    res
 }
 
 #[cfg(test)]
@@ -38,11 +56,11 @@ mod tests {
 
   #[test]
   fn test_first_part() {
-    assert_eq!(first_part(12), 0);
+    assert_eq!(first_part(vec![1721, 979, 366, 299, 675, 1456]), 514579);
   }
 
   #[test]
   fn test_second_part() {
-    assert_eq!(second_part(14), 0);
+    assert_eq!(second_part(vec![1721, 979, 366, 299, 675, 1456]), 241861950);
   }
 }
