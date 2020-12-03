@@ -24,32 +24,24 @@ impl Solver for Problem {
     }
 }
 
-fn cnt_tree_on_slope(map: &Vec<Vec<char>>, x: usize, y: usize) -> isize {
-    let height = map.len();
-    let width  = map[0].len();
-    let mut i = 0;
-    let mut j = 0;
+fn cnt_tree(map: &Vec<Vec<char>>, x: usize, y: usize) -> isize {
+    let (height, width) = (map.len(), map[0].len());
+    let mut pos = (0,0);
     let mut cnt = 0;
-    while i < height {
-        if map[i][j] == '#' {
-            cnt += 1
-        }
-        i += y;
-        j = (j + x) % width;
+    while pos.0 < height {
+        cnt += (map[pos.0][pos.1] == '#') as isize;
+        pos = (pos.0 + y, (pos.1 + x) % width);
     }
     cnt
 }
 
 fn first_part (map: Vec<Vec<char>>) -> isize {
-    cnt_tree_on_slope(map.as_ref(), 3, 1)
+    cnt_tree(map.as_ref(), 3, 1)
 }
 
 fn second_part (map: Vec<Vec<char>>) -> isize {
-    cnt_tree_on_slope(map.as_ref(), 1, 1) *
-    cnt_tree_on_slope(map.as_ref(), 3, 1) *
-    cnt_tree_on_slope(map.as_ref(), 5, 1) *
-    cnt_tree_on_slope(map.as_ref(), 7, 1) *
-    cnt_tree_on_slope(map.as_ref(), 1, 2)
+    let slopes = vec![ (1, 1), (3, 1), (5, 1), (7, 1), (1, 2) ];
+    slopes.into_iter().fold(1, |acc, s| acc * cnt_tree(map.as_ref(), s.0, s.1))
 }
 
 #[cfg(test)]
