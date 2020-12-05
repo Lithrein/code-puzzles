@@ -7,8 +7,8 @@ pub struct Problem;
 
 impl Solver for Problem {
     type Input = Vec<Vec<char>>;
-    type Output1 = isize;
-    type Output2 = isize;
+    type Output1 = usize;
+    type Output2 = usize;
 
     fn parse_input<R: io::Read>(&self, r: R) -> Self::Input {
         let r = BufReader::new(r);
@@ -24,24 +24,26 @@ impl Solver for Problem {
     }
 }
 
-fn cnt_tree(map: &Vec<Vec<char>>, x: usize, y: usize) -> isize {
+fn cnt_tree(map: &Vec<Vec<char>>, dx: usize, dy: usize) -> usize {
     let (height, width) = (map.len(), map[0].len());
     let mut pos = (0,0);
     let mut cnt = 0;
     while pos.0 < height {
-        cnt += (map[pos.0][pos.1] == '#') as isize;
-        pos = (pos.0 + y, (pos.1 + x) % width);
+        cnt += (map[pos.0][pos.1] == '#') as usize;
+        pos = (pos.0 + dy, (pos.1 + dx) % width);
     }
     cnt
+    // map.iter().step_by(dy).enumerate()
+    //    .filter(|(y, line)| line.iter().cycle().nth(dx*y) == Some('#').as_ref()).count()
 }
 
-fn first_part (map: Vec<Vec<char>>) -> isize {
+fn first_part (map: Vec<Vec<char>>) -> usize {
     cnt_tree(map.as_ref(), 3, 1)
 }
 
-fn second_part (map: Vec<Vec<char>>) -> isize {
+fn second_part (map: Vec<Vec<char>>) -> usize {
     let slopes = vec![ (1, 1), (3, 1), (5, 1), (7, 1), (1, 2) ];
-    slopes.into_iter().fold(1, |acc, s| acc * cnt_tree(map.as_ref(), s.0, s.1))
+    slopes.iter().map(|&(dx,dy)| cnt_tree(&map, dx, dy)).product()
 }
 
 #[cfg(test)]
