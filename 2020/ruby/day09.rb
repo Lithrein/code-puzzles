@@ -6,18 +6,13 @@ def bad_number input
   end
 end
 
-def thing input, goal
-  set, sum = [], 0
-  input.each do |e|
-    set += [e]
-    sum += e
-    while sum > goal do
-      sum -= set.shift
-    end
-    return set.min + set.max if sum == goal && set.length > 1
-  end
+def thing input, goal, i = 0, j = 0, sum = 0
+  return "boom" if i >= input.size or j >= input.size
+  return thing(input, goal, i, j + 1, sum + input[j]) if sum < goal
+  return thing(input, goal, i + 1, j, sum - input[i]) if sum > goal
+  return input[i..j].minmax.sum
 end
 
 input = File.open('../inputs/day09').read.lines.map(&:to_i)
 p part1 = bad_number(input)
-p part2 = thing(input,part1)
+p part2 = thing(input, part1)
