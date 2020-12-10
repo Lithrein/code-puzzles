@@ -1,15 +1,8 @@
 #! /usr/bin/env ruby
 
-
 def part1 input
-  current_max, chain = 0, []
-  loop {
-    current_max = input.select {|a| a > current_max && a <= current_max + 3}.min
-    break if current_max == nil
-    chain += [current_max]
-  }
-  chain = ([0] + chain + [input.max + 3]).each_cons(2).map {|x,y| y - x}
-  return chain.count(1) * chain.count(3)
+  chain = ([0] + input + [input.max + 3]).each_cons(2).map {|x,y| y - x}
+  chain.count(1) * chain.count(3)
 end
 
 def part2 input
