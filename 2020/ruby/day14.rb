@@ -27,7 +27,7 @@ def part2 input
       match = l.match(/mem\[(\d+)\] = (\d+)/)
       base_loc, val = (match[1].to_i | msk_val) & msk, match[2].to_i
       tmp_msk, last_msk, locs, bp = ~msk, 0, [0], 0
-      while true do
+      loop do
         bp = tmp_msk & -tmp_msk
         break if ("%b" % bp).length > 36
         locs = locs + locs.map(&->x{x + bp})
@@ -42,5 +42,12 @@ def part2 input
 end
 
 input = File.open('../inputs/day14').readlines
+# input = <<-DATA
+# mask = 000000000000000000000000000000X1001X
+# mem[42] = 100
+# mask = 00000000000000000000000000000000X0XX
+# mem[26] = 1
+# DATA
+# input = input.split("\n")
 p part1(input)
 p part2(input)
