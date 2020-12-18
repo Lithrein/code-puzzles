@@ -1,5 +1,7 @@
 #! /usr/bin/env ruby
 
+require 'msgpack'
+
 $neighbors3 = [-1,0,1].product([-1,0,1],[-1,0,1]) - [[0,0,0]]
 $neighbors4 = [-1,0,1].product([-1,0,1],[-1,0,1],[-1,0,1]) - [[0,0,0,0]]
 
@@ -22,37 +24,8 @@ def active_neighbors_4 tab, i, j, k, l
   }.sum
 end
 
-def copy_3 tab
-  new_tab = []
-  tab.length.times do |i|
-    new_tab[i] = tab[i].clone
-  end
-  tab.length.times do |i|
-    tab[0].length.times do |j|
-    new_tab[i][j] = tab[i][j].clone
-    end
-  end
-  new_tab
-end
-
-def copy_4 tab
-  new_tab = []
-  tab.length.times do |i|
-    new_tab[i] = tab[i].clone
-  end
-  tab.length.times do |i|
-    tab[0].length.times do |j|
-    new_tab[i][j] = tab[i][j].clone
-    end
-  end
-  tab.length.times do |i|
-    tab[0].length.times do |j|
-      tab[0][0].length.times do |k|
-        new_tab[i][j][k] = tab[i][j][k].clone
-      end
-    end
-  end
-  new_tab
+def deepcopy tab
+  MessagePack.unpack(tab.to_msgpack)
 end
 
 def print_tab_3 tab
@@ -88,13 +61,10 @@ def part1 input, n
   end
 
   n.times do |n|
-    new_tab = copy_3 tab
-    min_x = (active_cells.min { |(a,_,_),(b,_,_)| a <=> b })[0]
-    max_x = (active_cells.max { |(a,_,_),(b,_,_)| a <=> b })[0]
-    min_y = (active_cells.min { |(_,a,_),(_,b,_)| a <=> b })[1]
-    max_y = (active_cells.max { |(_,a,_),(_,b,_)| a <=> b })[1]
-    min_z = (active_cells.min { |(_,_,a),(_,_,b)| a <=> b })[2]
-    max_z = (active_cells.max { |(_,_,a),(_,_,b)| a <=> b })[2]
+    new_tab = deepcopy tab
+    min_x, max_x = active_cells.map {|a,_,_| a}.minmax
+    min_y, max_y = active_cells.map {|_,a,_| a}.minmax
+    min_z, max_z = active_cells.map {|_,_,a| a}.minmax
 
     (min_x-1..max_x+1).each do |i|
       (min_y-1..max_y+1).each do |j|
@@ -136,16 +106,12 @@ def part2 input, n
   end
 
   n.times do |n|
-    min_x = (active_cells.min { |(a,_,_,_),(b,_,_,_)| a <=> b })[0]
-    max_x = (active_cells.max { |(a,_,_,_),(b,_,_,_)| a <=> b })[0]
-    min_y = (active_cells.min { |(_,a,_,_),(_,b,_,_)| a <=> b })[1]
-    max_y = (active_cells.max { |(_,a,_,_),(_,b,_,_)| a <=> b })[1]
-    min_z = (active_cells.min { |(_,_,a,_),(_,_,b,_)| a <=> b })[2]
-    max_z = (active_cells.max { |(_,_,a,_),(_,_,b,_)| a <=> b })[2]
-    min_w = (active_cells.min { |(_,_,_,a),(_,_,_,b)| a <=> b })[3]
-    max_w = (active_cells.max { |(_,_,_,a),(_,_,_,b)| a <=> b })[3]
+    min_x, max_x = active_cells.map {|a,_,_,_| a}.minmax
+    min_y, max_y = active_cells.map {|_,a,_,_| a}.minmax
+    min_z, max_z = active_cells.map {|_,_,a,_| a}.minmax
+    min_w, max_w = active_cells.map {|_,_,_,a| a}.minmax
 
-    new_tab = copy_4 tab
+    new_tab = deepcopy tab
     (min_x-1..max_x+1).each do |i|
       (min_y-1..max_y+1).each do |j|
         (min_z-1..max_z+1).each do |k|
