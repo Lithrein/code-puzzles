@@ -1,3 +1,4 @@
+#! /usr/bin/env racket
 #lang racket
 
 (define (load-map-from file-name)
@@ -27,5 +28,5 @@
 (define (part2 array)
   (day03 array '((1 1) (1 3) (1 5) (1 7) (2 1))))
 
-(define input (load-map-from "inputs/day03"))
+(define input (load-map-from "../inputs/day03"))
 (printf "part1: ~a~npart2: ~a~n" (part1 input) (part2 input))

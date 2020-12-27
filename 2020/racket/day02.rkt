@@ -1,3 +1,4 @@
+#! /usr/bin/env racket
 #lang racket
 
 (define (line-to-list line)
@@ -28,7 +29,7 @@
 (define (part2 lst)
   (length (filter valid-second-policy lst)))
 
-(define input (load-passwords "inputs/day02"))
+(define input (load-passwords "../inputs/day02"))
 
 (display (part1 input))
 (display "\n")
