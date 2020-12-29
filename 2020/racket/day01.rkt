@@ -1,5 +1,5 @@
 #! /usr/bin/env racket
-#lang racket
+#lang racket/base
 
 (define (make-list-from-input in)
   (let ([val (read in)])
@@ -8,22 +8,18 @@
          (cons val (make-list-from-input in)))))
 
 (define (part1 lst)
-  (let ([res 0])
-    (for ([i lst])
-      (for ([j lst])
-        (cond [ (= 2020 (+ i j)) (set! res (* i j))])))
-    res))
+  (for*/first ([i lst]
+               [j lst]
+               #:when (= 2020 (+ i j)))
+    (* i j)))
 
 (define (part2 lst)
-  (let ([res 0])
-    (for ([i lst])
-      (for ([j lst])
-        (for ([k lst])
-          (cond [ (= 2020 (+ i j k)) (set! res (* i j k))]))))
-  res))
+  (for*/first ([i lst]
+               [j lst]
+               [k lst]
+               #:when (= 2020 (+ i j k)))
+    (* i j k)))
 
 (define in (open-input-file "../inputs/day01"))
 (define lst (make-list-from-input in))
-(write (part1 lst))
-(display "\n")
-(write (part2 lst))
+(printf "part1: ~a~npart2: ~a~n" (part1 lst) (part2 lst))
