@@ -6,7 +6,7 @@ use std::{
 };
 
 fn input_file(day: i32) -> String {
-    format!("inputs/day{:02}", day)
+    format!("../inputs/day{:02}", day)
 }
 
 #[allow(dead_code)]

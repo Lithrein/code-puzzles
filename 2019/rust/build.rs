@@ -76,7 +76,7 @@ impl Solver for Problem {{
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let input_dir = "./inputs";
+    let input_dir = "../inputs";
     let output_dir = "./src/solutions";
     let solutions_mod_output_path = Path::new(&output_dir).join("mod.rs");
 
