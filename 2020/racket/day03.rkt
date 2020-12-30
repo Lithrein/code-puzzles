@@ -6,6 +6,28 @@
     (lambda (str) (list->vector (string->list str)))
       (file->lines file-name))))
 
+(module+ test
+  (require rackunit)
+  (define raw-sample
+#<<DATA
+..##.......
+#...#...#..
+.#....#..#.
+..#.#...#.#
+.#...##..#.
+..#.##.....
+.#.#.#....#
+.#........#
+#.##...#...
+#...##....#
+.#..#...#.#
+DATA
+)
+  (define sample (list->vector
+                   (map list->vector
+                     (map string->list
+                       (string-split raw-sample "\n"))))))
+
 (define (count-tree array dx dy)
   (define height (vector-length array))
   (define width (vector-length (vector-ref array 0)))
@@ -25,8 +47,15 @@
 (define (part1 array)
   (day03 array '((1 3))))
 
+(module+ test
+  (check-equal? (part2 sample) 336))
+
 (define (part2 array)
   (day03 array '((1 1) (1 3) (1 5) (1 7) (2 1))))
 
-(define input (load-map-from "../inputs/day03"))
-(printf "part1: ~a~npart2: ~a~n" (part1 input) (part2 input))
+(module+ test
+  (check-equal? (part1 sample) 7))
+
+(module+ main
+  (define input (load-map-from "../inputs/day03"))
+  (printf "part1: ~a~npart2: ~a~n" (part1 input) (part2 input)))
