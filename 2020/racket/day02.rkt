@@ -9,6 +9,13 @@
   [((pregexp #px"(\\d+)-(\\d+) (\\w): (\\w+)" (list _ min max letter pwd)))
    (list (string->number min) (string->number max) (string-ref letter 0) pwd)])
 
+(module+ test
+  (require rackunit)
+  (define passwds (map line-to-list '(
+    "1-3 a: abcde"
+    "1-3 b: cdefg"
+    "2-9 c: ccccccccc"))))
+
 (define (load-passwords file-name)
   (map line-to-list (file->lines file-name)))
 
@@ -25,8 +32,15 @@
 (define (part1 lst)
   (length (filter valid-first-policy lst)))
 
+(module+ test
+  (check-equal? (part1 passwds) 2))
+
 (define (part2 lst)
   (length (filter valid-second-policy lst)))
 
-(define input (load-passwords "../inputs/day02"))
-(printf "part1: ~a~npart2: ~a~n" (part1 input) (part2 input))
+(module+ test
+  (check-equal? (part2 passwds) 1))
+
+(module+ main
+  (define input (load-passwords "../inputs/day02"))
+  (printf "part1: ~a~npart2: ~a~n" (part1 input) (part2 input)))
