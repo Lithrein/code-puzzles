@@ -1,5 +1,6 @@
 use std::{
     fmt::Display,
+    fmt::Debug,
     fs::File,
     io::{self, BufRead, BufReader},
     path::Path,
@@ -17,8 +18,8 @@ pub fn read_to_vec<R: io::Read>(r: R) -> Vec<String> {
 
 pub trait Solver {
     type Input;
-    type Output1: Display;
-    type Output2: Display;
+    type Output1: Debug;
+    type Output2: Debug;
 
     fn parse_input<R: io::Seek + io::Read>(&self, r: R) -> Self::Input;
     fn solve_first(&self, input: &Self::Input) -> Self::Output1;
@@ -36,7 +37,7 @@ pub trait Solver {
             .expect("unable to open input file");
         let s1 = self.solve_first(&input);
         let s2 = self.solve_second(&input);
-        println!("Solution 1: {}", s1);
-        println!("Solution 2: {}", s2);
+        println!("Solution 1: {:?}", s1);
+        println!("Solution 2: {:?}", s2);
     }
 }

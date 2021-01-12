@@ -1,8 +1,9 @@
 use crate::solutions::exec_day;
 use std::env;
 
-mod solutions;
+mod intcode;
 mod solver;
+mod solutions;
 
 fn main() {
     let day = env::args()
