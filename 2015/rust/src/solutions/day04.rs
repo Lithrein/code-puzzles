@@ -1,9 +1,9 @@
 use crate::solver::Solver;
-use std::{
-    io::{self, BufRead, BufReader},
-    fmt::format,
-};
 use md5::compute;
+use std::{
+    fmt::format,
+    io::{self, BufRead, BufReader},
+};
 
 pub struct Problem;
 
@@ -14,9 +14,7 @@ impl Solver for Problem {
 
     fn parse_input<R: io::Read>(&self, r: R) -> Self::Input {
         let r = BufReader::new(r);
-        r.lines()
-         .flatten()
-         .collect()
+        r.lines().flatten().collect()
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
@@ -28,18 +26,20 @@ impl Solver for Problem {
     }
 }
 
-
-fn part1(base: String)-> isize {
+fn part1(base: String) -> isize {
     let mut i = 1;
-    while !format!("{:x}", md5::compute(format(format_args!("{}{}", base, i)))).starts_with("00000") {
+    while !format!("{:x}", md5::compute(format(format_args!("{}{}", base, i)))).starts_with("00000")
+    {
         i += 1;
     }
     i
 }
 
-fn part2(base: String)-> isize {
+fn part2(base: String) -> isize {
     let mut i = 1;
-    while !format!("{:x}", md5::compute(format(format_args!("{}{}", base, i)))).starts_with("000000") {
+    while !format!("{:x}", md5::compute(format(format_args!("{}{}", base, i))))
+        .starts_with("000000")
+    {
         i += 1;
     }
     i
@@ -47,13 +47,11 @@ fn part2(base: String)-> isize {
 
 #[cfg(test)]
 mod tests {
-  use crate::solutions::day04::*;
+    use crate::solutions::day04::*;
 
-  #[test]
-  fn test_first_part() {
-  }
+    #[test]
+    fn test_first_part() {}
 
-  #[test]
-  fn test_second_part() {
-  }
+    #[test]
+    fn test_second_part() {}
 }

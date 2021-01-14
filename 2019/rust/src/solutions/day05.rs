@@ -1,6 +1,6 @@
-use crate::solver::Solver;
 use crate::exec;
 use crate::intcode::*;
+use crate::solver::Solver;
 use std::{
     fmt,
     io::{self, BufRead, BufReader},
@@ -35,8 +35,6 @@ impl Solver for Problem {
         output
     }
 }
-
-
 
 // #[cfg(test)]
 // mod tests {

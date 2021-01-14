@@ -1,7 +1,5 @@
 use crate::solver::Solver;
-use std::{
-    io::{self, BufRead, BufReader},
-};
+use std::io::{self, BufRead, BufReader};
 
 pub struct Problem;
 
@@ -24,7 +22,7 @@ impl Solver for Problem {
     }
 }
 
-fn first_part (expenses: Vec<isize>) -> isize {
+fn first_part(expenses: Vec<isize>) -> isize {
     let mut res = 0;
     for i in &expenses {
         for j in &expenses {
@@ -36,7 +34,7 @@ fn first_part (expenses: Vec<isize>) -> isize {
     res
 }
 
-fn second_part (expenses: Vec<isize>) -> isize {
+fn second_part(expenses: Vec<isize>) -> isize {
     let mut res = 0;
     for i in &expenses {
         for j in &expenses {
@@ -52,15 +50,15 @@ fn second_part (expenses: Vec<isize>) -> isize {
 
 #[cfg(test)]
 mod tests {
-  use crate::solutions::day01::*;
+    use crate::solutions::day01::*;
 
-  #[test]
-  fn test_first_part() {
-    assert_eq!(first_part(vec![1721, 979, 366, 299, 675, 1456]), 514579);
-  }
+    #[test]
+    fn test_first_part() {
+        assert_eq!(first_part(vec![1721, 979, 366, 299, 675, 1456]), 514579);
+    }
 
-  #[test]
-  fn test_second_part() {
-    assert_eq!(second_part(vec![1721, 979, 366, 299, 675, 1456]), 241861950);
-  }
+    #[test]
+    fn test_second_part() {
+        assert_eq!(second_part(vec![1721, 979, 366, 299, 675, 1456]), 241861950);
+    }
 }

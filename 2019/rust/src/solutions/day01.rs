@@ -1,7 +1,5 @@
 use crate::solver::Solver;
-use std::{
-    io::{self, BufRead, BufReader},
-};
+use std::io::{self, BufRead, BufReader};
 
 pub struct Problem;
 
@@ -24,35 +22,35 @@ impl Solver for Problem {
     }
 }
 
-fn fuel1 (mass:isize) -> isize {
-  mass / 3 - 2
+fn fuel1(mass: isize) -> isize {
+    mass / 3 - 2
 }
 
-fn fuel2 (mass: isize) -> isize {
-  let tmp:isize = fuel1(mass);
-  if tmp > 0 {
-    fuel2(tmp) + tmp
-  } else {
-    0
-  }
+fn fuel2(mass: isize) -> isize {
+    let tmp: isize = fuel1(mass);
+    if tmp > 0 {
+        fuel2(tmp) + tmp
+    } else {
+        0
+    }
 }
 
 #[cfg(test)]
 mod tests {
-  use crate::solutions::day01::*;
+    use crate::solutions::day01::*;
 
-  #[test]
-  fn test_fuel1() {
-    assert_eq!(fuel1(12),     2);
-    assert_eq!(fuel1(14),     2);
-    assert_eq!(fuel1(1969),   654);
-    assert_eq!(fuel1(100756), 33583);
-  }
+    #[test]
+    fn test_fuel1() {
+        assert_eq!(fuel1(12), 2);
+        assert_eq!(fuel1(14), 2);
+        assert_eq!(fuel1(1969), 654);
+        assert_eq!(fuel1(100756), 33583);
+    }
 
-  #[test]
-  fn test_fuel2() {
-    assert_eq!(fuel2(14),     2);
-    assert_eq!(fuel2(1969),   966);
-    assert_eq!(fuel2(100756), 50346);
-  }
+    #[test]
+    fn test_fuel2() {
+        assert_eq!(fuel2(14), 2);
+        assert_eq!(fuel2(1969), 966);
+        assert_eq!(fuel2(100756), 50346);
+    }
 }

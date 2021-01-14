@@ -1,11 +1,10 @@
-use crate::solver::Solver;
 use crate::exec;
 use crate::intcode::*;
+use crate::solver::Solver;
 use std::{
     fmt,
     io::{self, BufRead, BufReader},
 };
-
 
 pub struct Problem;
 
@@ -32,8 +31,6 @@ impl Solver for Problem {
         find_noun_verb(input, 19690720)
     }
 }
-
-
 
 // #[cfg(test)]
 // mod tests {
