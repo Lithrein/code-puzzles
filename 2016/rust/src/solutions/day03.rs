@@ -1,6 +1,5 @@
 use crate::solver::Solver;
 use std::{
-    collections::HashSet,
     io::{self, BufRead, BufReader},
 };
 
