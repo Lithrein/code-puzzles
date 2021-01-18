@@ -1,6 +1,5 @@
 use crate::solver::Solver;
 use std::{
-    cmp,
     io::{self, BufRead, BufReader},
     str,
     str::FromStr,
