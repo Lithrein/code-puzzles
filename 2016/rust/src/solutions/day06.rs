@@ -27,16 +27,14 @@ impl Solver for Problem {
     }
 }
 
-fn part1(words: &Vec<String>) -> String {
+fn part1(words: &[String]) -> String {
     let mut freqs = vec![vec![0; 26]; words.iter().next().unwrap().len()];
     let mut res = vec![];
 
     for w in words.iter() {
-        let mut i = 0;
-        for c in w.as_bytes().iter() {
+        for (i, c) in w.as_bytes().iter().enumerate() {
             let pos = (*c as usize) - 97;
             freqs[i][pos] += 1;
-            i += 1;
         }
     }
 
@@ -48,16 +46,14 @@ fn part1(words: &Vec<String>) -> String {
     str::from_utf8(res.as_slice()).unwrap().to_string()
 }
 
-fn part2(words: &Vec<String>) -> String {
+fn part2(words: &[String]) -> String {
     let mut freqs = vec![vec![0; 26]; words.iter().next().unwrap().len()];
     let mut res = vec![];
 
     for w in words.iter() {
-        let mut i = 0;
-        for c in w.as_bytes().iter() {
+        for (i, c) in w.as_bytes().iter().enumerate() {
             let pos = (*c as usize) - 97;
             freqs[i][pos] += 1;
-            i += 1;
         }
     }
 
