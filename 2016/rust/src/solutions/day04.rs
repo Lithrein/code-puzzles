@@ -23,7 +23,7 @@ impl FromStr for RoomLabel {
             .chars()
             .take_while(|c| !c.is_digit(10))
             .collect::<String>()
-            .split("-")
+            .split('-')
             .map(|s| s.to_string())
             .collect::<Vec<_>>();
         labels.retain(|s| s != "");
@@ -43,11 +43,7 @@ impl FromStr for RoomLabel {
             .take_while(|c| *c != ']')
             .collect();
 
-        Ok(RoomLabel {
-            labels: labels,
-            checksum: checksum,
-            sector_id: sector_id,
-        })
+        Ok(RoomLabel { labels, checksum, sector_id })
     }
 }
 
@@ -67,7 +63,7 @@ impl Solver for Problem {
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
         input
             .iter()
-            .filter(is_checksum_valid)
+            .filter(|c| is_checksum_valid(c))
             .map(|rl| rl.sector_id)
             .sum()
     }
@@ -75,14 +71,14 @@ impl Solver for Problem {
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
         input
             .iter()
-            .filter(is_checksum_valid)
+            .filter(|c| is_checksum_valid(c))
             .filter(|r| decrypt(r) == "northpole object storage")
             .map(|rl| rl.sector_id)
             .sum()
     }
 }
 
-fn is_checksum_valid(room: &&RoomLabel) -> bool {
+fn is_checksum_valid(room: &RoomLabel) -> bool {
     let mut letters = vec![0; 26];
     let mut max: Vec<u8> = vec![0; 5];
 
@@ -113,7 +109,6 @@ fn is_checksum_valid(room: &&RoomLabel) -> bool {
             .as_slice(),
         )
         .unwrap()
-        .to_string()
 }
 
 fn label_size(room: &RoomLabel) -> usize {
