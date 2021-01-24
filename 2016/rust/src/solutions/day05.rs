@@ -50,14 +50,11 @@ fn part2(base: String) -> String {
         if count == 8 { break }
         let hash = format!("{:x}", md5::compute(format(format_args!("{}{}", base, i))));
         if hash.starts_with("00000") {
-            match hash.chars().nth(5).unwrap().to_digit(8) {
-                Some(d) => {
+            if let Some(d) = hash.chars().nth(5).unwrap().to_digit(8) {
                     if res[d as usize] == ' ' {
                         res[d as usize] = hash.chars().nth(6).unwrap();
                         count += 1
                     }
-                }
-                None => {}
             }
         }
         i += 1
