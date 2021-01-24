@@ -27,7 +27,7 @@ impl FromStr for ScreenOp {
                     .chars()
                     .skip_while(|c| !c.is_digit(10))
                     .collect::<String>()
-                    .split("x")
+                    .split('x')
                     .map(|x| x.parse::<usize>())
                     .collect();
                 Ok(ScreenOp::Rect(
@@ -92,15 +92,15 @@ impl Solver for Problem {
     }
 }
 
-fn part1(ops: &Vec<ScreenOp>) -> isize {
+fn part1(ops: &[ScreenOp]) -> isize {
     let mut screen = vec![vec![false; 50]; 6]; // 50 wide x 6 tall screen
 
     for op in ops.iter() {
         match op {
             ScreenOp::Rect(x,y) => {
-                for i in 0..*y {
-                    for j in 0..*x {
-                        screen[i][j] = true
+                for row in screen.iter_mut().take(*y) {
+                    for c in row.iter_mut().take(*x) {
+                        *c = true
                     }
                 }
             },
@@ -109,9 +109,7 @@ fn part1(ops: &Vec<ScreenOp>) -> isize {
                 for i in 0..50 {
                     new_row[(i + offset) % 50] = screen[*row][i]
                 }
-                for i in 0..50 {
-                    screen[*row][i] = new_row[i]
-                }
+                screen[*row][..50].clone_from_slice(&new_row[..50])
             },
             ScreenOp::RotateCol(col,offset) => {
                 let mut new_col = vec![false; 6];
@@ -127,7 +125,7 @@ fn part1(ops: &Vec<ScreenOp>) -> isize {
     for row in screen.iter() {
         println!("{}", row.iter().map(|&c| if c { '#' } else { ' ' }).collect::<String>());
     }
-    screen.iter().fold(0, |acc, row| (acc + (row.iter().filter(|&&x| x == true).count() as isize)))
+    screen.iter().fold(0, |acc, row| (acc + (row.iter().filter(|&&x| x).count() as isize)))
 }
 
 #[cfg(test)]
