@@ -37,7 +37,7 @@ fn dir_to_dir(dir: isize) -> char {
     let reduced_dir = dir % 360;
     match reduced_dir {
         000 => 'N',
-        090 => 'E',
+         90 => 'E',
         180 => 'S',
         270 => 'W',
         _ => panic!(),
@@ -52,12 +52,12 @@ fn dir_to_offset(dir: char) -> isize {
     }
 }
 
-fn part1(instructions: &Vec<(char, isize)>) -> isize {
+fn part1(instructions: &[(char, isize)]) -> isize {
     let mut pos = (0, 0);
     let mut dir = 0;
 
     for instruction in instructions.iter() {
-        dir = dir + dir_to_offset(instruction.0);
+        dir += dir_to_offset(instruction.0);
         match dir_to_dir(dir) {
             'N' => pos.1 += instruction.1,
             'E' => pos.0 += instruction.1,
@@ -70,7 +70,7 @@ fn part1(instructions: &Vec<(char, isize)>) -> isize {
     isize::abs(pos.0) + isize::abs(pos.1)
 }
 
-fn part2(instructions: &Vec<(char, isize)>) -> isize {
+fn part2(instructions: &[(char, isize)]) -> isize {
     let mut visited = HashSet::new();
     let mut pos = (0, 0);
     let mut dir = 0;
@@ -81,7 +81,7 @@ fn part2(instructions: &Vec<(char, isize)>) -> isize {
         if stop {
             break;
         }
-        dir = dir + dir_to_offset(instruction.0);
+        dir += dir_to_offset(instruction.0);
         let char_dir = dir_to_dir(dir);
         for _ in 0..instruction.1 {
             if stop {
