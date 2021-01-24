@@ -25,7 +25,7 @@ impl Solver for Problem {
 }
 
 
-fn part1(instructions: &Vec<String>) -> isize {
+fn part1(instructions: &[String]) -> isize {
     let numpad = vec![
         vec![1, 2, 3],
         vec![4, 5, 6],
@@ -50,7 +50,7 @@ fn part1(instructions: &Vec<String>) -> isize {
     code
 }
 
-fn part2(instructions: &Vec<String>) -> String {
+fn part2(instructions: &[String]) -> String {
     let numpad = vec![
         vec!['.', '.', '1', '.', '.'],
         vec!['.', '2', '3', '4', '.'],
@@ -65,10 +65,10 @@ fn part2(instructions: &Vec<String>) -> String {
     for s in instructions.iter() {
         for c in s.chars() {
             match c {
-              'L' => pos.1 = if pos.1 - 1 >= 0 && numpad[pos.0 as usize][(pos.1 - 1) as usize] != '.' { pos.1 - 1 } else { pos.1 },
-              'R' => pos.1 = if pos.1 + 1 <= 4 && numpad[pos.0 as usize][(pos.1 + 1) as usize] != '.' { pos.1 + 1 } else { pos.1 },
-              'U' => pos.0 = if pos.0 - 1 >= 0 && numpad[(pos.0 - 1) as usize][pos.1 as usize] != '.' { pos.0 - 1 } else { pos.0 },
-              'D' => pos.0 = if pos.0 + 1 <= 4 && numpad[(pos.0 + 1) as usize][pos.1 as usize] != '.' { pos.0 + 1 } else { pos.0 },
+              'L' => pos.1 = if pos.1 > 0 && numpad[pos.0 as usize][(pos.1 - 1) as usize] != '.' { pos.1 - 1 } else { pos.1 },
+              'R' => pos.1 = if pos.1 < 4 && numpad[pos.0 as usize][(pos.1 + 1) as usize] != '.' { pos.1 + 1 } else { pos.1 },
+              'U' => pos.0 = if pos.0 > 0 && numpad[(pos.0 - 1) as usize][pos.1 as usize] != '.' { pos.0 - 1 } else { pos.0 },
+              'D' => pos.0 = if pos.0 < 4 && numpad[(pos.0 + 1) as usize][pos.1 as usize] != '.' { pos.0 + 1 } else { pos.0 },
                _  => panic!()
             }
         }
