@@ -16,21 +16,21 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.iter().filter(support_tls).count()
+        input.iter().filter(|ip| support_tls(ip)).count()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
-        input.iter().filter(support_ssl).count()
+        input.iter().filter(|ip| support_ssl(ip)).count()
     }
 }
 
-fn reset_last(last: &mut Vec<Option<char>>) {
-    for i in 0..last.len() {
-        last[i] = None
+fn reset_last(last: &mut [Option<char>]) {
+    for el in last.iter_mut() {
+        *el = None
     }
 }
 
-fn append_last(last: &mut Vec<Option<char>>, c: char) {
+fn append_last(last: &mut [Option<char>], c: char) {
     let len = last.len();
     for i in 0..len - 1 {
         last[i] = last[i + 1]
@@ -38,12 +38,12 @@ fn append_last(last: &mut Vec<Option<char>>, c: char) {
     last[len - 1] = Some(c)
 }
 
-fn support_tls(ip: &&String) -> bool {
+fn support_tls(ip: &str) -> bool {
     let mut within_brackets = false;
     let mut last = vec![None; 4];
     let mut valid = false;
 
-    fn check_pattern(last: &Vec<Option<char>>) -> bool {
+    fn check_pattern(last: &[Option<char>]) -> bool {
         let a = last[0];
         let b = last[1];
         a != b && a == last[3] && b == last[2]
@@ -63,11 +63,9 @@ fn support_tls(ip: &&String) -> bool {
                 append_last(&mut last, c);
                 if !within_brackets {
                     valid = valid || check_pattern(&last);
-                } else {
-                    if check_pattern(&last) {
+                } else if check_pattern(&last) {
                         valid = false;
                         break;
-                    }
                 }
             }
         }
@@ -75,20 +73,20 @@ fn support_tls(ip: &&String) -> bool {
     valid
 }
 
-fn support_ssl(ip: &&String) -> bool {
+fn support_ssl(ip: &str) -> bool {
     let mut within_brackets = false;
     let mut last = vec![None; 3];
     let mut valid = false;
     let mut aba_patterns = HashSet::new();
     let mut bab_patterns = HashSet::new();
 
-    fn check_pattern(last: &Vec<Option<char>>) -> bool {
+    fn check_pattern(last: &[Option<char>]) -> bool {
         let a = last[0];
         let b = last[1];
         a != b && a == last[2]
     }
 
-    fn extract_pattern(last: &Vec<Option<char>>) -> Vec<char> {
+    fn extract_pattern(last: &[Option<char>]) -> Vec<char> {
         last.iter().map(|c| c.unwrap()).collect()
     }
 
