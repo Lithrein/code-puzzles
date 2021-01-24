@@ -22,7 +22,7 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.iter().filter(is_valid_triangle).collect::<Vec<_>>().len()
+        input.iter().filter(|t| is_valid_triangle(t)).count()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
@@ -37,12 +37,12 @@ impl Solver for Problem {
             new_input_tmp.push(elem.2)
         }
         let new_input: Vec<_> = new_input_tmp.chunks(3).map(|x| (x[0], x[1], x[2])).collect();
-        new_input.iter().filter(is_valid_triangle).collect::<Vec<_>>().len()
+        new_input.iter().filter(|t| is_valid_triangle(t)).count()
     }
 }
 
 
-fn is_valid_triangle(side: &&(isize, isize, isize)) -> bool {
+fn is_valid_triangle(side: &(isize, isize, isize)) -> bool {
     // no flat triangles...
     side.0 < side.1 + side.2 &&
     side.1 < side.0 + side.2 &&
