@@ -28,89 +28,83 @@ impl Solver for Problem {
     }
 }
 
-fn decompress_v1(s: &String) -> String {
+fn decompress_v1(s: &str) -> String {
     let mut res: Vec<char> = vec![];
     let mut sub: Vec<char> = vec![];
     let mut cnt;
     let mut s_iter = s.chars();
     let mut within_brackets = false;
 
-    loop {
-        match s_iter.next() {
-            Some(c) => match c {
-                '(' => within_brackets = true,
-                ')' => {
-                    within_brackets = false;
-                    let vals = sub
-                        .iter()
-                        .collect::<String>()
-                        .split("x")
-                        .map(|x| x.parse().unwrap())
-                        .collect::<Vec<_>>();
-                    let sz = vals[0];
-                    cnt = vals[1];
-                    sub.clear();
-                    for _ in 0..sz {
-                        sub.push(s_iter.next().unwrap());
-                    }
-                    for _ in 0..cnt {
-                        for c in sub.iter() {
-                            res.push(*c);
-                        }
-                    }
-                    sub.clear();
+    while let Some(c) = s_iter.next() {
+        match c {
+            '(' => within_brackets = true,
+            ')' => {
+                within_brackets = false;
+                let vals = sub
+                    .iter()
+                    .collect::<String>()
+                    .split('x')
+                    .map(|x| x.parse().unwrap())
+                    .collect::<Vec<_>>();
+                let sz = vals[0];
+                cnt = vals[1];
+                sub.clear();
+                for _ in 0..sz {
+                    sub.push(s_iter.next().unwrap());
                 }
-                _ => {
-                    if within_brackets {
-                        sub.push(c)
-                    } else {
-                        res.push(c)
+                for _ in 0..cnt {
+                    for c in sub.iter() {
+                        res.push(*c);
                     }
                 }
-            },
-            None => break,
+                sub.clear();
+            }
+            _ => {
+                if within_brackets {
+                    sub.push(c)
+                } else {
+                    res.push(c)
+                }
+            }
         }
     }
 
     res.iter().collect()
 }
 
-fn decompress_v2(s: &String) -> usize {
+fn decompress_v2(s: &str) -> usize {
     let mut res: usize = 0;
     let mut sub: Vec<char> = vec![];
     let mut s_iter = s.chars();
     let mut within_brackets = false;
 
-    loop {
-        match s_iter.next() {
-            Some(c) => match c {
-                '(' => within_brackets = true,
-                ')' => {
-                    within_brackets = false;
-                    let vals = sub
-                        .iter()
-                        .collect::<String>()
-                        .split("x")
-                        .map(|x| x.parse().unwrap())
-                        .collect::<Vec<_>>();
-                    let sz = vals[0];
-                    let cnt = vals[1];
-                    let mut tmp = vec![];
-                    for _ in 0..sz {
-                        tmp.push(s_iter.next().unwrap());
-                    }
-                    res += cnt * decompress_v2(&tmp.iter().collect());
-                    sub.clear();
+    while let Some(c) = s_iter.next() {
+        match c {
+            '(' => within_brackets = true,
+            ')' => {
+                within_brackets = false;
+                let vals = sub
+                    .iter()
+                    .collect::<String>()
+                    .split('x')
+                    .map(|x| x.parse().unwrap())
+                    .collect::<Vec<_>>();
+                let sz = vals[0];
+                let cnt = vals[1];
+                let mut tmp = vec![];
+                for _ in 0..sz {
+                    tmp.push(s_iter.next().unwrap());
                 }
-                _ => {
-                    if within_brackets {
-                        sub.push(c)
-                    } else {
-                        res += 1
-                    }
+                res += cnt * decompress_v2(&tmp.iter().collect::<String>());
+                sub.clear();
+            }
+            _ => {
+                if within_brackets {
+                    sub.push(c)
+                } else {
+                    res += 1
                 }
-            },
-            None => break,
+            }
         }
     }
 
