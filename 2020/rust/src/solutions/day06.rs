@@ -36,22 +36,22 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.iter().map(first_part).sum()
+        input.iter().map(|answers| first_part(answers)).sum()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
-        input.iter().map(second_part).sum()
+        input.iter().map(|answers| second_part(answers)).sum()
     }
 }
 
-fn first_part(answers: &Vec<HashSet<char>>) -> usize {
-    let mut answers_iter = answers.into_iter();
+fn first_part(answers: &[HashSet<char>]) -> usize {
+    let mut answers_iter = answers.iter();
     let init = answers_iter.next().unwrap_or(&HashSet::new()).clone();
     answers_iter.fold(init, |acc, set| &acc | set).len()
 }
 
-fn second_part(answers: &Vec<HashSet<char>>) -> usize {
-    let mut answers_iter = answers.into_iter();
+fn second_part(answers: &[HashSet<char>]) -> usize {
+    let mut answers_iter = answers.iter();
     let init = answers_iter.next().unwrap_or(&HashSet::new()).clone();
     answers_iter.fold(init, |acc, set| &acc & set).len()
 }
