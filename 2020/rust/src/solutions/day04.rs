@@ -35,12 +35,12 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.into_iter().filter(|l| fst_policy(l)).count()
+        input.iter().filter(|l| fst_policy(l)).count()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
         input
-            .into_iter()
+            .iter()
             .filter(|l| fst_policy(l))
             .filter(|l| snd_policy(l))
             .count()
@@ -69,8 +69,8 @@ fn snd_policy(passport_entry: &str) -> bool {
         static ref ECL: Regex = Regex::new(r"^amb|blu|brn|gry|grn|hzl|oth$").unwrap();
         static ref PID: Regex = Regex::new(r"^[0-9]{9}$").unwrap();
     }
-    RE.captures_iter(passport_entry).fold(true, |acc, cap| {
-        acc && match &cap["id"] {
+
+    RE.captures_iter(passport_entry).all(|cap| match &cap["id"] {
             "byr" => BYR.is_match(&cap["val"]),
             "iyr" => IYR.is_match(&cap["val"]),
             "eyr" => EYR.is_match(&cap["val"]),
@@ -80,7 +80,6 @@ fn snd_policy(passport_entry: &str) -> bool {
             "pid" => PID.is_match(&cap["val"]),
             "cid" => true,
             _ => false,
-        }
     })
 }
 
