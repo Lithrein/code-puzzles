@@ -22,7 +22,7 @@ impl Solver for Problem {
     }
 }
 
-fn cnt_tree(map: &Vec<Vec<char>>, dx: usize, dy: usize) -> usize {
+fn cnt_tree(map: &[Vec<char>], dx: usize, dy: usize) -> usize {
     let (height, width) = (map.len(), map[0].len());
     let mut pos = (0, 0);
     let mut cnt = 0;
