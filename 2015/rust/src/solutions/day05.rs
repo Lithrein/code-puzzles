@@ -16,21 +16,19 @@ impl Solver for Problem {
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
         input
             .iter()
-            .filter(is_nice_string_v1)
-            .collect::<Vec<&String>>()
-            .len()
+            .filter(|s| is_nice_string_v1(s))
+            .count()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
         input
             .iter()
-            .filter(is_nice_string_v2)
-            .collect::<Vec<&String>>()
-            .len()
+            .filter(|s| is_nice_string_v2(s))
+            .count()
     }
 }
 
-fn is_nice_string_v1(s: &&String) -> bool {
+fn is_nice_string_v1(s: &str) -> bool {
     let mut last = '\0';
     let mut vowels = 0;
     let mut double_letters = 0;
@@ -51,7 +49,7 @@ fn is_nice_string_v1(s: &&String) -> bool {
     vowels >= 3 && valid && double_letters >= 1
 }
 
-fn is_nice_string_v2(s: &&String) -> bool {
+fn is_nice_string_v2(s: &str) -> bool {
     let mut before_last = '\0';
     let mut last = '\0';
     let mut eyes = 0;
@@ -93,22 +91,22 @@ mod tests {
 
     #[test]
     fn test_first_part() {
-        assert_eq!(is_nice_string_v1(&&"ugknbfddgicrmopn".to_string()), true);
-        assert_eq!(is_nice_string_v1(&&"aaa".to_string()), true);
-        assert_eq!(is_nice_string_v1(&&"jchzalrnumimnmhp".to_string()), false);
-        assert_eq!(is_nice_string_v1(&&"haegwjzuvuyypxyu".to_string()), false);
-        assert_eq!(is_nice_string_v1(&&"dvszwmarrgswjxmb".to_string()), false);
+        assert_eq!(is_nice_string_v1(&"ugknbfddgicrmopn"), true);
+        assert_eq!(is_nice_string_v1(&"aaa"), true);
+        assert_eq!(is_nice_string_v1(&"jchzalrnumimnmhp"), false);
+        assert_eq!(is_nice_string_v1(&"haegwjzuvuyypxyu"), false);
+        assert_eq!(is_nice_string_v1(&"dvszwmarrgswjxmb"), false);
     }
 
     #[test]
     fn test_second_part() {
-        assert_eq!(is_nice_string_v2(&&"aaa".to_string()), false);
-        assert_eq!(is_nice_string_v2(&&"xxyxx".to_string()), true);
+        assert_eq!(is_nice_string_v2(&"aaa"), false);
+        assert_eq!(is_nice_string_v2(&"xxyxx"), true);
         /* consider that xx is overlapping, I don't know whether this is true or false,
          * but the solution to my input is correct... */
-        assert_eq!(is_nice_string_v2(&&"xxxxx".to_string()), false);
-        assert_eq!(is_nice_string_v2(&&"qjhvhtzxzqqjkmpb".to_string()), true);
-        assert_eq!(is_nice_string_v2(&&"uurcxstgmygtbstg".to_string()), false);
-        assert_eq!(is_nice_string_v2(&&"ieodomkazucvgmuy".to_string()), false);
+        assert_eq!(is_nice_string_v2(&"xxxxx"), false);
+        assert_eq!(is_nice_string_v2(&"qjhvhtzxzqqjkmpb"), true);
+        assert_eq!(is_nice_string_v2(&"uurcxstgmygtbstg"), false);
+        assert_eq!(is_nice_string_v2(&"ieodomkazucvgmuy"), false);
     }
 }
