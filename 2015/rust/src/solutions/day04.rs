@@ -1,5 +1,5 @@
 use crate::solver::Solver;
-use md5::compute;
+use md5;
 use std::{
     fmt::format,
     io::{self, BufRead, BufReader},
