@@ -17,15 +17,15 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.iter().map(nb_visited_houses).sum()
+        input.iter().map(|s| nb_visited_houses(s)).sum()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
-        input.iter().map(nb_visited_houses_with_robot).sum()
+        input.iter().map(|s| nb_visited_houses_with_robot(s)).sum()
     }
 }
 
-fn nb_visited_houses(path: &String) -> isize {
+fn nb_visited_houses(path: &str) -> isize {
     let mut visited = HashSet::new();
     let mut cur_x = 0;
     let mut cur_y = 0;
@@ -43,15 +43,14 @@ fn nb_visited_houses(path: &String) -> isize {
     visited.len() as isize
 }
 
-fn nb_visited_houses_with_robot(path: &String) -> isize {
+fn nb_visited_houses_with_robot(path: &str) -> isize {
     let mut visited = HashSet::new();
     let mut cur_santa_x = 0;
     let mut cur_santa_y = 0;
     let mut cur_robot_x = 0;
     let mut cur_robot_y = 0;
-    let mut turn = 0;
     visited.insert((0, 0));
-    for i in path.chars() {
+    for (turn, i) in path.chars().enumerate() {
         if turn % 2 == 0 {
             match i {
                 '>' => cur_santa_x += 1,
@@ -71,7 +70,6 @@ fn nb_visited_houses_with_robot(path: &String) -> isize {
             }
             visited.insert((cur_robot_x, cur_robot_y));
         }
-        turn += 1
     }
     visited.len() as isize
 }
@@ -81,16 +79,16 @@ mod tests {
 
     #[test]
     fn test_first_part() {
-        assert_eq!(nb_visited_houses(&">".to_string()), 2);
-        assert_eq!(nb_visited_houses(&"^>v<".to_string()), 4);
-        assert_eq!(nb_visited_houses(&"^v^v^v^v^v".to_string()), 2);
+        assert_eq!(nb_visited_houses(&">"), 2);
+        assert_eq!(nb_visited_houses(&"^>v<"), 4);
+        assert_eq!(nb_visited_houses(&"^v^v^v^v^v"), 2);
     }
 
     #[test]
     fn test_second_part() {
-        assert_eq!(nb_visited_houses_with_robot(&">".to_string()), 2);
-        assert_eq!(nb_visited_houses_with_robot(&"^v".to_string()), 3);
-        assert_eq!(nb_visited_houses_with_robot(&"^>v<".to_string()), 3);
-        assert_eq!(nb_visited_houses_with_robot(&"^v^v^v^v^v".to_string()), 11);
+        assert_eq!(nb_visited_houses_with_robot(&">"), 2);
+        assert_eq!(nb_visited_houses_with_robot(&"^v"), 3);
+        assert_eq!(nb_visited_houses_with_robot(&"^>v<"), 3);
+        assert_eq!(nb_visited_houses_with_robot(&"^v^v^v^v^v"), 11);
     }
 }
