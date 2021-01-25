@@ -21,22 +21,22 @@ impl Solver for Problem {
     }
 
     fn solve_first(&self, input: &Self::Input) -> Self::Output1 {
-        input.iter().map(wrap_surface).sum()
+        input.iter().map(|e| wrap_surface(e)).sum()
     }
 
     fn solve_second(&self, input: &Self::Input) -> Self::Output2 {
-        input.iter().map(feets_to_order).sum()
+        input.iter().map(|e| feets_to_order(e)).sum()
     }
 }
 
-fn wrap_surface(lwh: &Vec<isize>) -> isize {
+fn wrap_surface(lwh: &[isize]) -> isize {
     let side1 = lwh[0] * lwh[1];
     let side2 = lwh[1] * lwh[2];
     let side3 = lwh[2] * lwh[0];
     2 * side1 + 2 * side2 + 2 * side3 + vec![side1, side2, side3].iter().min().unwrap()
 }
 
-fn feets_to_order(lwh: &Vec<isize>) -> isize {
+fn feets_to_order(lwh: &[isize]) -> isize {
     2 * (lwh.iter().sum::<isize>() - lwh.iter().max().unwrap()) + lwh[0] * lwh[1] * lwh[2]
 }
 
