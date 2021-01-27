@@ -36,7 +36,7 @@ impl FromStr for Rels {
             .take_while(|c| *c != ' ')
             .collect::<Cow<'_, str>>();
 
-        fn next_number(it: &mut dyn std::iter::Iterator<Item = char>) -> Result<usize, ()> {
+        fn next_number(it: &mut std::str::Chars) -> Result<usize, ()> {
             Ok(it
                 .skip_while(|c| !c.is_digit(10))
                 .take_while(|c| *c != ' ')
@@ -45,16 +45,16 @@ impl FromStr for Rels {
                 .map_err(|_| ())?)
         }
 
-        fn next_word(it: &mut dyn std::iter::Iterator<Item = char>) -> String {
+        fn next_word(it: &mut std::str::Chars) -> String {
             it.skip_while(|c| !c.is_alphabetic())
                 .take_while(|c| *c != ' ')
                 .collect()
         }
 
-        fn next_keyword(mut it: &mut dyn std::iter::Iterator<Item = char>) -> String {
-            let mut s = next_word(&mut it);
+        fn next_keyword(it: &mut std::str::Chars) -> String {
+            let mut s = next_word(it);
             while s != "bot" && s != "output" {
-                s = next_word(&mut it);
+                s = next_word(it);
             }
             s
         }
