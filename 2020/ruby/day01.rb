@@ -3,7 +3,7 @@
 def part1 lst, goal
   i, j = 0, lst.length - 1
   cur = lst[i] + lst[j]
-  while cur != goal && i < lst.length && j >= 0 do
+  while cur != goal && i < lst.length - 1 && j > 0 do
     if cur < goal then
       i += 1
     else
@@ -11,17 +11,17 @@ def part1 lst, goal
     end
     cur = lst[i] + lst[j]
   end
-  cur == goal ? [lst[i], lst[j]] : nil
+  cur == goal ? [lst[i], lst[j]] : []
 end
 
 def part2 lst, goal
   lst.length.times do |i|
     tmp = part1(lst, goal - lst[i])
-    if tmp != nil then
+    if !tmp.empty? then
       return [tmp[0], tmp[1], lst[i]]
     end
   end
-  nil
+  []
 end
 
 if $0 == __FILE__ then
