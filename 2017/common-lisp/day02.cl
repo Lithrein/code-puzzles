@@ -17,12 +17,13 @@
   (let ((sentence '())
         (word '()))
     (loop for c across str do
-        (if (and (or (equal c #\tab) (equal c #\ )) (not (equal word '())))
-          (prog1
+      (cond
+        ((and (whitespace-p c) (not (equal word '())))
+          (progn
             (setf sentence (cons (list->string (reverse word)) sentence))
-            (setf word '()))
-          (if (and (not (equal c #\ )) (not (equal c #\tab)))
-            (setf word (cons c word)))))
+            (setf word '())))
+        ((not (whitespace-p c))
+          (setf word (cons c word)))))
     (reverse
       (if (not (equal word '()))
        (cons (list->string (reverse word)) sentence)
