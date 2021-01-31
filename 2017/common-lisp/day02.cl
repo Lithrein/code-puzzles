@@ -74,7 +74,45 @@
                                                  (words line)))))))
   sum))
 
-(defun day02-2 (input) 0)
+; "Great work; looks like we're on the right track after all. Here's a star for
+; your effort." However, the program seems a little worried. Can programs be
+; worried?
+;
+; "Based on what we're seeing, it looks like all the User wanted is some
+; information about the evenly divisible values in the spreadsheet.
+; Unfortunately, none of us are equipped for that kind of calculation - most of
+; us specialize in bitwise operations."
+;
+; It sounds like the goal is to find the only two numbers in each row where one
+; evenly divides the other - that is, where the result of the division operation
+; is a whole number. They would like you to find those numbers on each line,
+; divide them, and add up each line's result.
+;
+; For example, given the following spreadsheet:
+;
+; 5 9 2 8 ; 8 and 2 ; div: 4
+; 9 4 7 3 ; 9 and 3 ; div: 3
+; 3 8 6 5 ; 6 and 3 ; div: 2
+; sum of divs: 9
+
+(defun divdiv (list)
+  "This function extracts a list of tuples of integers `(j i)`
+  where `j` is divisible by `i` from `list`."
+  (let ((res '()))
+  (loop for i in list do
+    (loop for j in list do
+          (setf res (if (and (not (eq i j)) (eq (mod j i) 0))
+                      (cons (list j i) res)
+                      res))))
+  res))
+
+(defun day02-2 (lines)
+  (let ((sum 0))
+  (loop for line in lines do
+    (setf sum (+ sum
+                 (reduce #'/ (car (divdiv (mapcar #'read-from-string
+                                                 (words line))))))))
+  sum))
 
 (with-open-file (in "../inputs/day02")
   (let ((lines (file->line in)))
