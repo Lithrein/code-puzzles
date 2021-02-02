@@ -9,20 +9,22 @@ def process_input line
   }
 end
 
-def part1 lst
+def day02_1 lst
   lst.select do |entry|
     cnt = entry[:word].count(entry[:letter])
     entry[:number][0] <= cnt && cnt <= entry[:number][1]
   end.length
 end
 
-def part2 lst
+def day02_2 lst
   lst.select do |entry|
     (entry[:word][entry[:number][0] - 1] == entry[:letter]) ^
     (entry[:word][entry[:number][1] - 1] == entry[:letter])
   end.length
 end
 
-lst = File.open('../inputs/day02').readlines.map &method(:process_input)
-puts part1(lst)
-puts part2(lst)
+if $0 == __FILE__ then
+  lst = File.open('../inputs/day02').readlines.map &method(:process_input)
+  puts day02_1(lst)
+  puts day02_2(lst)
+end
