@@ -1,7 +1,9 @@
 #! /usr/bin/env ruby
 
 module Day02
-  def self.process_input line
+  extend self
+
+  def process_input line
     res = line.match /^(\d+)-(\d+) ([a-z]): ([a-z]+)$/
     {
       :number => [res[1].to_i, res[2].to_i],
@@ -10,14 +12,14 @@ module Day02
     }
   end
 
-  def self.part1 lst
+  def part1 lst
     lst.select do |entry|
       cnt = entry[:word].count(entry[:letter])
       entry[:number][0] <= cnt && cnt <= entry[:number][1]
     end.length
   end
 
-  def self.part2 lst
+  def part2 lst
     lst.select do |entry|
       (entry[:word][entry[:number][0] - 1] == entry[:letter]) ^
       (entry[:word][entry[:number][1] - 1] == entry[:letter])

@@ -1,7 +1,9 @@
 #! /usr/bin/env ruby
 
 module Day01
-  def self.part1 lst, goal
+  extend self
+
+  def part1 lst, goal
     i, j = 0, lst.length - 1
     cur = lst[i] + lst[j]
     while cur != goal && i < lst.length - 1 && j > 0 do
@@ -15,7 +17,7 @@ module Day01
     cur == goal ? [lst[i], lst[j]] : []
   end
 
-  def self.part2 lst, goal
+  def part2 lst, goal
     lst.length.times do |i|
       tmp = part1(lst, goal - lst[i])
       if !tmp.empty? then
