@@ -1,19 +1,32 @@
 #! /usr/bin/env ruby
 
-def iter input, nb
-  mem, len, last = {}, input.length, 0
-  input.each.with_index do |e,idx|
-    mem[e], last = idx, e
+module Day15
+  extend self
+  def iter input, nb
+    mem, len, last = {}, input.length, 0
+    input.each.with_index do |e,idx|
+      mem[e], last = idx, e
+    end
+    mem[last] = nil
+    (len-1..nb-2).each do |i|
+      tmp = mem[last]
+      mem[last] = i
+      last = tmp.nil? ? 0 : i - tmp
+    end
+    last
   end
-  mem[last] = nil
-  (len-1..nb-2).each do |i|
-    tmp = mem[last]
-    mem[last] = i
-    last = tmp.nil? ? 0 : i - tmp
+
+  def part1 input
+    iter(input, 2020)
   end
-  last
+
+  def part2 input
+    iter(input, 30_000_000)
+  end
 end
 
-input = File.open('../inputs/day15').readlines[0].split(',').map(&:to_i)
-p iter(input,2020)
-p iter(input,30000000)
+if $0 == __FILE__ then
+  input = File.open('../inputs/day15').readlines[0].split(',').map(&:to_i)
+  puts "Part 1: #{Day15.part1 input}"
+  puts "Part 2: #{Day15.part2 input}"
+end
