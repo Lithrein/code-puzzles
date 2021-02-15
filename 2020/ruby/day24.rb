@@ -1,5 +1,8 @@
 #! /usr/bin/env ruby
 
+module Day24
+  extend self
+
 def walk path
   x, y = 0, 0
   path.each do |c|
@@ -47,7 +50,7 @@ def next_config config
   config.each do |h,v|
     nb_black_neighbors = neighbors(h).select { |n| config[n] == 1 }.length
     if nb_black_neighbors == 0 || nb_black_neighbors > 2 then
-      to_be_flipped += [h]
+      to_be_flipped << h
     end
   end
 
@@ -56,7 +59,7 @@ def next_config config
     candidates = neighbors(t1) & neighbors(t2)
     candidates.each do |h|
       if config[h] != 1 && neighbors(h).select { |n| config[n] == 1 }.length == 2 then
-        to_be_flipped += [h]
+        to_be_flipped << h
       end
     end
   end
@@ -82,7 +85,17 @@ def next_config_n config, n
   end
   new_config
 end
+def part1 paths
+  walk_and_flip(paths).length
+end
 
+# todo: speed up this
+def part2 paths
+  end_config  = next_config_n(walk_and_flip(paths), 100).length
+end
+end
+
+if $0 == __FILE__ then
 input = <<-DATA
 sesenwnenenewseeswwswswwnenewsewsw
 neeenesenwnwwswnenewnwwsewnenwseswesw
@@ -116,8 +129,6 @@ paths = input.map do |str|
      .map(&:join)
 end
 
-init_config = walk_and_flip(paths)
-puts init_config.length # part1
-
-end_config  = next_config_n(init_config, 100)
-puts end_config.length  # part2
+puts "Part 1: #{Day24.part1 paths}"
+puts "Part 2: #{Day24.part2 paths}"
+end
