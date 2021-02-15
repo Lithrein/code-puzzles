@@ -1,5 +1,8 @@
 #! /usr/bin/env ruby
 
+module Day25
+  extend self
+
 def get_loop_size public_key
   subject_number = 7
   divisor = 20201227
@@ -42,7 +45,11 @@ def part1 input
     raise "error: can't compute encryption key"
   end
 end
+end
 
-input = File.open('../inputs/day25').readlines.map(&:to_i)
-# input = [5764801,17807724]
-p part1(input)
+if $0 == __FILE__ then
+  input = File.open('../inputs/day25').readlines.map(&:to_i)
+  # input = [5764801,17807724]
+  puts "Part 1: #{Day25.part1(input)}"
+  puts "Part 2: nothing."
+end
