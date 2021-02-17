@@ -14,7 +14,7 @@ instances = [
 
 RSpec.describe 'day02_1' do
   instances.each do |inst|
-    it "assert that nb passwd are okay in the list `#{inst[:problem]}` ?" do
+    it "assert that #{inst[:sol1]} passwds are okay (policy 1) in the list `#{inst[:problem]}` ?" do
       input = inst[:problem].map &Day02.method(:process_input)
       expect(Day02.part1(input)).to eq(inst[:sol1])
     end
@@ -23,7 +23,7 @@ end
 
 RSpec.describe 'day02_2' do
   instances.each do |inst|
-    it "assert that the list `#{inst[:problem]}` ?" do
+    it "assert that #{inst[:sol2]} passwds are okay (policy 2) in the list `#{inst[:problem]}` ?" do
       input = inst[:problem].map &Day02.method(:process_input)
       expect(Day02.part2(input)).to eq(inst[:sol2])
     end
