@@ -6,7 +6,7 @@ module Day06
   def part1 input
     input
       .map { |x|
-        x.gsub(/\n/, "")
+        x.tr("\n ", "")
          .split("")
          .uniq }
       .inject(0) { |sum, v| sum + v.length }
@@ -15,7 +15,8 @@ module Day06
   def part2 input
     input
       .map { |x|
-        x.split("\n")
+        x.tr(" ", "")
+         .split("\n")
          .map { |x| x.split "" }
          .reduce :& }
       .inject(0) { |sum, v| sum + v.length }
