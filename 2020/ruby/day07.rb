@@ -6,6 +6,7 @@ module Day07
   def process_input input
     hash = {}
     input.each_line do |line|
+      line.strip!
       key = line.match(/(.*) bags contain/)[1]
       val = line.scan(/(\d+) (.[^,.]*(?= bag))/).map {|a| [a[1],a[0].to_i]}.to_h
       hash[key] = val
@@ -25,14 +26,14 @@ module Day07
   end
 
   def part1 hash
-    shiny_space(hash, "shiny gold")
-  end
-
-  def part2 hash
     hash.keys
       .map { |k| can_shiny(hash, k) }
       .select(&:itself)
       .length
+  end
+
+  def part2 hash
+    shiny_space(hash, "shiny gold")
   end
 end
 
