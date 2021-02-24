@@ -62,7 +62,6 @@ end
 
 if $0 == __FILE__ then
   input = File.open('../inputs/day12').read.lines.map {|a| [a[0], a[1..-1].to_i]}
-  # input = %w[F10 N3 F7 R90 F11].map {|a| [a[0], a[1..-1].to_i]}
   puts "Part 1: #{Day12.part1(input)}"
   puts "Part 2: #{Day12.part2(input)}"
 end
