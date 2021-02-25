@@ -28,7 +28,6 @@ end
 
 if $0 == __FILE__ then
   input = File.open('../inputs/day13').read.lines
-  # input = ["939\n", "7,13,x,x,59,x,31,19\n"]
   puts "Part 1: #{Day13.part1(input)}"
   puts "Part 2: #{Day13.part2(input)}"
 end
