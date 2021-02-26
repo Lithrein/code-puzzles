@@ -47,13 +47,6 @@ end
 
 if $0 == __FILE__
   input = File.open('../inputs/day14').readlines
-  # input = <<-DATA
-  # mask = 000000000000000000000000000000X1001X
-  # mem[42] = 100
-  # mask = 00000000000000000000000000000000X0XX
-  # mem[26] = 1
-  # DATA
-  # input = input.split("\n")
   puts "Part 1: #{Day14.part1(input)}"
   puts "Part 2: #{Day14.part2(input)}"
 end
