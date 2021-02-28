@@ -6,8 +6,8 @@ module Day16
   def parse_rules raw
     rules = {}
     raw.split("\n").each do |l|
-      m = l.match /(.+): (\d+)-(\d+) or (\d+)-(\d+)/
-      rules[m[1]] = ->x{ 
+      m = l.match /\s*(.+): (\d+)-(\d+) or (\d+)-(\d+)/
+      rules[m[1]] = ->x{
         (m[2].to_i <= x && x <= m[3].to_i) ||
         (m[4].to_i <= x && x <= m[5].to_i)
       }
@@ -23,10 +23,9 @@ module Day16
     end.sum
   end
 
-  def part2 rules, you, tickets
+  def assign_fields rules, you, tickets
     assignations = Hash.new []
     final_assignations = Hash.new 0
-    res = 1
 
     valid_tickets_transposed = tickets.select do |ticket|
       ticket.all? do |n|
@@ -53,8 +52,14 @@ module Day16
       end
     end
 
-    final_assignations.each do |n,v|
-      res *= you[v] if n =~ /departure/
+    final_assignations.each {|n,v| final_assignations[n] = you[v]}
+  end
+
+  def part2 rules, you, tickets
+    res = 1
+
+    (assign_fields rules, you, tickets).each do |n,v|
+      res *= v if n =~ /departure/
     end
     res
   end
