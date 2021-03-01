@@ -137,12 +137,6 @@ end
 
 if $0 == __FILE__ then
   input = File.open('../inputs/day17').readlines.map(&:chomp).map { |s| s.split '' }
-  #input = <<-DATA
-  #.#.
-  #..#
-  ####
-  #DATA
-  #input = input.split("\n").map { |s| s.split '' }
   puts "Part 1: #{Day17.part1(input,6)}"
   puts "Part 2: #{Day17.part2(input,6)}"
 end
