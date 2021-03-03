@@ -3,32 +3,33 @@
 module Day19
   extend self
 
+  # @todo: rewrite this function
   def parse_rule raw_rules
     hash = {}
     raw_rules.each do |r|
-      if r =~ /^\d+: "(?:a|b)"$/ then
+      if r =~ /\d+: "(?:a|b)"$/ then
         nb, char = r.match(/(\d+): "(a|b)"/)[1..2]
         hash[nb] = [[char]]
-      elsif r =~ /^\d+: \d+ \d+$/ then
-        nb, r1, r2 = r.match(/^(\d+): (\d+) (\d+)$/)[1..4]
+      elsif r =~ /\d+: \d+ \d+$/ then
+        nb, r1, r2 = r.match(/(\d+): (\d+) (\d+)$/)[1..4]
         hash[nb] = [[r1,r2]]
-      elsif r =~ /^\d+: \d+ \d+ \d+$/ then
-        nb, r1, r2, r3 = r.match(/^(\d+): (\d+) (\d+) (\d+)$/)[1..4]
+      elsif r =~ /\d+: \d+ \d+ \d+$/ then
+        nb, r1, r2, r3 = r.match(/(\d+): (\d+) (\d+) (\d+)$/)[1..4]
         hash[nb] = [[r1,r2,r3]]
-      elsif r =~ /^\d+: \d+$/ then
-        nb, r1 = r.match(/^(\d+): (\d+)$/)[1..3]
+      elsif r =~ /\d+: \d+$/ then
+        nb, r1 = r.match(/(\d+): (\d+)$/)[1..3]
         hash[nb] = [[r1]]
-      elsif r =~ /^\d+: \d+ \d+ \| \d+ \d+$/ then
-        nb, r1, r2, r3, r4 = r.match(/^(\d+): (\d+) (\d+) \| (\d+) (\d+)$/)[1..6]
+      elsif r =~ /\d+: \d+ \d+ \| \d+ \d+$/ then
+        nb, r1, r2, r3, r4 = r.match(/(\d+): (\d+) (\d+) \| (\d+) (\d+)$/)[1..6]
         hash[nb] = [[r1,r2],[r3,r4]]
-      elsif r =~ /^\d+: \d+ \| \d+ \d+$/ then
-        nb, r1, r3, r4 = r.match(/^(\d+): (\d+) \| (\d+) (\d+)$/)[1..5]
+      elsif r =~ /\d+: \d+ \| \d+ \d+$/ then
+        nb, r1, r3, r4 = r.match(/(\d+): (\d+) \| (\d+) (\d+)$/)[1..5]
         hash[nb] = [[r1],[r3,r4]]
-      elsif r =~ /^\d+: \d+ \| \d+$/ then
-        nb, r1, r3 = r.match(/^(\d+): (\d+) \| (\d+)$/)[1..4]
+      elsif r =~ /\d+: \d+ \| \d+$/ then
+        nb, r1, r3 = r.match(/(\d+): (\d+) \| (\d+)$/)[1..4]
         hash[nb] = [[r1],[r3]]
-      elsif r =~ /^\d+: \d+ \d+ \| \d+$/ then
-        nb, r1, r2, r3 = r.match(/^(\d+): (\d+) (\d+) \| (\d+)$/)[1..4]
+      elsif r =~ /\d+: \d+ \d+ \| \d+$/ then
+        nb, r1, r2, r3 = r.match(/(\d+): (\d+) (\d+) \| (\d+)$/)[1..4]
         hash[nb] = [[r1,r2],[r3]]
       else
         puts "rule parsing error when parsing #{r}"
@@ -63,7 +64,7 @@ module Day19
   end
 
   def nb_matches input, regex
-    input.select {|l| l.match? regex}.length
+    input.select {|l| l.strip.match? regex}.length
   end
 
   def expend_rule2 rules, n
@@ -112,8 +113,8 @@ end
 
 if $0 == __FILE__ then
   raw_rules, input = File.open('../inputs/day19').read.split("\n\n").map { |x| x.split("\n") }
-  rules = parse_rule(raw_rules)
+  rules = Day19.parse_rule(raw_rules)
 
-  puts "Part 1: #{Day19.part1(input,rules)}"
+  puts "Part 1: #{Day19.part1(input, rules)}"
   puts "Part 2: #{Day19.part2(input, rules)}"
 end
