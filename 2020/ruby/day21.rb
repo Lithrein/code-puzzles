@@ -3,6 +3,14 @@
 module Day21
   extend self
 
+  def process_input input
+    input
+      .map(&:chomp)
+      .map(&->x{x.tr("(),","")})
+      .map(&->x{x.split(" contains ")})
+      .map(&->x{[x[1].split(" "),x[0].split(" ")]})
+  end
+
   def find_allergenes input
     hash = Hash.new []
     final_assoc = Hash.new []
@@ -47,11 +55,7 @@ module Day21
 end
 
 if $0 == __FILE__ then
-  input = File.open('../inputs/day21').readlines
-    .map(&:chomp)
-    .map(&->x{x.tr("(),","")})
-    .map(&->x{x.split(" contains ")})
-    .map(&->x{[x[1].split(" "),x[0].split(" ")]})
+  input = Day21.process_input File.open('../inputs/day21').readlines
 
   allergenes = Day21.find_allergenes(input)
   puts "Part 1: #{Day21.part1(input, allergenes)}"
