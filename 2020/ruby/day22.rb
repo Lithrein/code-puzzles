@@ -24,6 +24,7 @@ module Day22
     end_deck.map.with_index { |c,idx| c * (len - idx) }.sum
   end
 
+  # todo: remove recursion
   def part2 stack1, stack2, game = 1
     stack1 = stack1.clone
     stack2 = stack2.clone
@@ -79,31 +80,6 @@ module Day22
 end
 
 if $0 == __FILE__ then
-  input = <<-DATA
-Player 1:
-9
-2
-6
-3
-1
-
-Player 2:
-5
-8
-4
-7
-10
-  DATA
-  # input = <<-DATA
-  # Player 1:
-  # 43
-  # 19
-
-  # Player 2:
-  # 2
-  # 29
-  # 14
-  # DATA
   input = File.open('../inputs/day22').read
 
   stack1, stack2 = input.split("\n\n").map(&->x{x.split("\n")[1..-1].map(&:to_i)})
