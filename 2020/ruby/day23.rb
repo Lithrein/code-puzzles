@@ -21,7 +21,8 @@ module Day23
       lst = lst[0..dst_cup_idx] + cups + lst[dst_cup_idx+1..-1]
       cur_cup_idx = (lst.index(cur_cup_val) + 1) % lst.length
     end
-    lst.join
+    before, after = lst.join.split '1'
+    (after.nil? ? "" : after) + (before.nil? ? "" : before)
   end
 
   def part2 lst, n
@@ -70,7 +71,6 @@ module Day23
 end
 
 if $0 == __FILE__ then
-  input = "389125467"
   input = File.open('../inputs/day23').read.chomp
   lst = input.split('').map(&:to_i)
   puts "Part 1: #{Day23.part1(lst,100)}"
