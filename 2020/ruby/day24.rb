@@ -47,6 +47,7 @@ def next_config config
   to_be_flipped = []
 
   # black to flip
+  # todo: improve the computations of neighbor, it is way to slow
   config.each do |h,v|
     nb_black_neighbors = neighbors(h).select { |n| config[n] == 1 }.length
     if nb_black_neighbors == 0 || nb_black_neighbors > 2 then
@@ -85,6 +86,7 @@ def next_config_n config, n
   end
   new_config
 end
+
 def part1 paths
   walk_and_flip(paths).length
 end
@@ -96,29 +98,6 @@ end
 end
 
 if $0 == __FILE__ then
-input = <<-DATA
-sesenwnenenewseeswwswswwnenewsewsw
-neeenesenwnwwswnenewnwwsewnenwseswesw
-seswneswswsenwwnwse
-nwnwneseeswswnenewneswwnewseswneseene
-swweswneswnenwsewnwneneseenw
-eesenwseswswnenwswnwnwsewwnwsene
-sewnenenenesenwsewnenwwwse
-wenwwweseeeweswwwnwwe
-wsweesenenewnwwnwsenewsenwwsesesenwne
-neeswseenwwswnwswswnw
-nenwswwsewswnenenewsenwsenwnesesenew
-enewnwewneswsewnwswenweswnenwsenwsw
-sweneswneswneneenwnewenewwneswswnese
-swwesenesewenwneswnwwneseswwne
-enesenwswwswneneswsenwnewswseenwsese
-wnwnesenesenenwwnenwsewesewsesesew
-nenewswnwewswnenesenwnesewesw
-eneswnwswnwsenenwnwnwwseeswneewsenese
-neswnwewnwnwseenwseesewsenwsweewe
-wseweeenwnesenwwwswnew
-DATA
-  .split "\n"
 input = File.open('../inputs/day24').read.lines.map(&:chomp)
 
 paths = input.map do |str|
