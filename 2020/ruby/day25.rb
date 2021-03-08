@@ -49,7 +49,6 @@ end
 
 if $0 == __FILE__ then
   input = File.open('../inputs/day25').readlines.map(&:to_i)
-  # input = [5764801,17807724]
   puts "Part 1: #{Day25.part1(input)}"
   puts "Part 2: nothing."
 end
