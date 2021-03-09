@@ -5,9 +5,10 @@ module Day20
 
   def find_nessy image, i
     nessy1 = /(?=(..................#.))/
-      nessy2 = /(?=(#....##....##....###))/
-      nessy3 = /(?=(.#..#..#..#..#..#...))/
-      pos1 = image[i+0].enum_for(:scan, nessy1).map { Regexp.last_match.begin(0) }
+    nessy2 = /(?=(#....##....##....###))/
+    nessy3 = /(?=(.#..#..#..#..#..#...))/
+
+    pos1 = image[i+0].enum_for(:scan, nessy1).map { Regexp.last_match.begin(0) }
     pos2 = image[i+1].enum_for(:scan, nessy2).map { Regexp.last_match.begin(0) }
     pos3 = image[i+2].enum_for(:scan, nessy3).map { Regexp.last_match.begin(0) }
 
