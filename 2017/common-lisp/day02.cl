@@ -68,11 +68,8 @@
   (list max min)))
 
 (defun day02-1 (lines)
-  (let ((sum 0))
-  (loop for line in lines do
-    (setf sum (+ sum (reduce #'- (minmax (mapcar #'read-from-string
-                                                 (words line)))))))
-  sum))
+  (loop for line in lines sum
+    (reduce #'- (minmax (mapcar #'read-from-string (words line))))))
 
 ; "Great work; looks like we're on the right track after all. Here's a star for
 ; your effort." However, the program seems a little worried. Can programs be
@@ -95,24 +92,20 @@
 ; 3 8 6 5 ; 6 and 3 ; div: 2
 ; sum of divs: 9
 
+; Solution 1: 32121
+; Solution 2: 197
+
 (defun divdiv (list)
   "This function extracts a list of tuples of integers `(j i)`
   where `j` is divisible by `i` from `list`."
-  (let ((res '()))
-  (loop for i in list do
-    (loop for j in list do
-          (setf res (if (and (not (eq i j)) (eq (mod j i) 0))
-                      (cons (list j i) res)
-                      res))))
-  res))
+  (loop for i in list nconc
+    (loop for j in list
+          when (and (not (eq i j)) (eq (mod j i) 0))
+          collect (list j i))))
 
 (defun day02-2 (lines)
-  (let ((sum 0))
-  (loop for line in lines do
-    (setf sum (+ sum
-                 (reduce #'/ (car (divdiv (mapcar #'read-from-string
-                                                 (words line))))))))
-  sum))
+  (loop for line in lines sum
+    (reduce #'/ (car (divdiv (mapcar #'read-from-string (words line)))))))
 
 (with-open-file (in "../inputs/day02")
   (let ((lines (file->line in)))
