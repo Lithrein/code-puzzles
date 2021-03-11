@@ -2,15 +2,6 @@
 
 ; --- Day 2: Corruption Checksum ---
 
-(defun list->string (list)
-  "This function takes a list of characters and converts it into a string"
-  (let ((str (make-string (length list)))
-        (idx 0))
-    (loop for c in list do
-      (setf (aref str idx) c)
-      (setf idx (+ idx 1)))
-    str))
-
 (defun file->line (input)
   "This function takes a file and converts it into a list of lines"
   (let ((lines '()))
@@ -25,20 +16,12 @@
 (defun words (str)
   "This function splits a sentence into a list of words, where a word is
   sequence of contiguous characters without spaces or tabs."
-  (let ((sentence '())
-        (word '()))
-    (loop for c across str do
-      (cond
-        ((and (whitespace-p c) (not (equal word '())))
-          (progn
-            (setf sentence (cons (list->string (reverse word)) sentence))
-            (setf word '())))
-        ((not (whitespace-p c))
-          (setf word (cons c word)))))
-    (reverse
-      (if (not (equal word '()))
-       (cons (list->string (reverse word)) sentence)
-       sentence))))
+  (loop for i = (position-if-not #'whitespace-p str)
+        then    (position-if-not #'whitespace-p str :start (1+ j))
+        for j = (and i (position-if #'whitespace-p str :start i))
+    when (and i (not (= i j)))
+    collect (subseq str i j)
+    while j))
 
 ; As you walk through the door, a glowing humanoid shape yells in your
 ; direction. "You there! Your state appears to be idle. Come help us repair the
