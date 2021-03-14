@@ -43,12 +43,10 @@
 
 (defun minmax (list)
   "This function returns a list with the min and the max of a list"
-  (let ((min (car list))
-        (max (car list)))
-    (loop for i in list do
-      (setf min (if (< i min) i min))
-      (setf max (if (> i max) i max)))
-  (list max min)))
+  (loop for i in list
+        minimizing i into min
+        maximizing i into max
+        finally (return (list max min))))
 
 (defun day02-1 (lines)
   (loop for line in lines sum
