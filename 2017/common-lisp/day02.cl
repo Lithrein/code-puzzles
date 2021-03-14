@@ -19,7 +19,7 @@
   (loop for i = (position-if-not #'whitespace-p str)
         then    (position-if-not #'whitespace-p str :start (1+ j))
         for j = (and i (position-if #'whitespace-p str :start i))
-    when (and i (not (= i j)))
+    when (and i (not (equal i j)))
     collect (subseq str i j)
     while j))
 
