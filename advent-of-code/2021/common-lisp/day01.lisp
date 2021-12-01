@@ -18,13 +18,11 @@
 
 (defun day01-2 (input)
   (loop for a in input
-        for b in (cdr input)
-        for c in (cddr input)
         for d in (cdddr input)
-        count (> (+ b c d) (+ a b c))))
+        count (> d a)))
 
 ; (defun day01-2 (input)
-;   (loop for (a b c d) on input count (and d (> (+ b c d) (+ a b c)))))
+;   (loop for (a b c d) on input count (and d (> d a))))
 
 (with-open-file (foo "../inputs/day01")
   (let ((in (mapcar #'parse-integer (file->lines foo))))
