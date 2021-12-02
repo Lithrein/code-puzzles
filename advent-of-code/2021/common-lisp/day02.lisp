@@ -21,45 +21,29 @@
     collect (subseq str i j)
     while j))
 
-(defun day02-1-aux (input)
-  (if input
-    (let* ((res (day02-1-aux (cdr input)))
-           (cmdval (car input))
-           (cmd (car cmdval))
-           (val (parse-integer (cadr cmdval)))
-           (x (car res))
-           (y (cadr res)))
-    (cond
-      ((equal cmd "up")      `(,x ,(- y val)))
-      ((equal cmd "down")    `(,x ,(+ y val)))
-      ((equal cmd "forward") `(,(+ x val) ,y))))
-    '(0 0)))
-
 (defun day02-1 (input)
-  (let ((res (day02-1-aux input)))
-    (* (car res) (cadr res))))
-
-(defun day02-2-aux (input)
-  (if input
-    (let* ((res (day02-2-aux (cdr input)))
-           (cmdval (car input))
-           (cmd (car cmdval))
-           (val (parse-integer (cadr cmdval)))
-           (x (car res))
-           (y (cadr res))
-           (aim (caddr res)))
-    (cond
-      ((equal cmd "up")      `(,x ,y ,(- aim val)))
-      ((equal cmd "down")    `(,x ,y ,(+ aim val)))
-      ((equal cmd "forward") `(,(+ x val) ,(+ y (* aim val)) ,aim))))
-    '(0 0 0)))
+  (let ((h 0) (d 0))
+    (loop for (cmd val) in input do
+      (let ((v (parse-integer val)))
+        (cond
+         ((equal cmd "up")      (decf d v))
+         ((equal cmd "down")    (incf d v))
+         ((equal cmd "forward") (incf h v)))))
+    (* h d)))
 
 (defun day02-2 (input)
-  (let ((res (day02-2-aux input)))
-    (* (car res) (cadr res))))
+  (let ((h 0) (d 0) (a 0))
+    (loop for (cmd val) in input do
+      (let ((v (parse-integer val)))
+        (cond
+         ((equal cmd "up")      (decf a v))
+         ((equal cmd "down")    (incf a v))
+         ((equal cmd "forward") (incf h v) (incf d (* a v))))))
+    (format t "~a~%" `(,h ,d ,a))
+    (* h d)))
 
 (with-open-file (foo "../inputs/day02")
   (let ((in (mapcar #'words (file->lines foo))))
     (format t "Day02:~%Solution 1: ~a~%Solution 2: ~a~%"
             (day02-1 in)
-            (day02-2 (reverse in)))))
+            (day02-2 in))))
