@@ -6,3 +6,6 @@
 
 (uiop:define-package :day02
   (:use #:common-lisp))
+
+(uiop:define-package :day03
+  (:use #:common-lisp))
