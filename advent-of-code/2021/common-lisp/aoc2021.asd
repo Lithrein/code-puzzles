@@ -3,5 +3,7 @@
   :components ((:file "packages")
                (:file "day01" :depends-on ("packages"))
                (:file "day02" :depends-on ("packages"))
-               (:file "day03" :depends-on ("packages"))))
+               (:file "day03" :depends-on ("packages"))
+               (:file "day04" :depends-on ("packages"))
+               (:file "day05" :depends-on ("packages"))))
 
