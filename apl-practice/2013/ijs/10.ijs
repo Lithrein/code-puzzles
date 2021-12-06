@@ -11,6 +11,7 @@ NB. The left argument is a vector of the values for the equations and the right
 NB. argument is a matrix of the coefficients.
 
 solve =. {{ (%.y) +/ .* x }}
+solve =. ((+/ .*)])~%.
 
 13 1 solve 2 2 $ 3 2 1 _1
 NB. 3 2
