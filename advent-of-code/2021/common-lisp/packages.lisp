@@ -15,3 +15,9 @@
 
 (uiop:define-package :day05
   (:use #:common-lisp))
+
+(uiop:define-package :day09
+  (:use #:common-lisp))
+
+(uiop:define-package :day10
+  (:use #:common-lisp))
