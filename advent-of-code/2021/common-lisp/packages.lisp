@@ -21,3 +21,6 @@
 
 (uiop:define-package :day10
   (:use #:common-lisp))
+
+(uiop:define-package :day11
+  (:use #:common-lisp))
