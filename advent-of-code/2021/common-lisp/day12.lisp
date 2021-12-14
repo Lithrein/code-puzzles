@@ -39,7 +39,7 @@
         (if (gethash from visited) nil
             (progn
               (if (small-cave-p from) (setf (gethash from visited) t))
-	      (loop for neighbor in (gethash from graph) do
+              (loop for neighbor in (gethash from graph) do
                 (let ((paths (walk1 neighbor graph visited)))
                   (loop for path in paths do
                     (if path (setf res (append (cons (cons from path) nil) res)) nil))))
@@ -58,24 +58,24 @@
                         (if path (setf res (append (cons (cons from path) nil) res)) nil))))))
             (progn
               (if (small-cave-p from) (setf (gethash from visited) t))
-	      (loop for neighbor in (gethash from graph) do
+              (loop for neighbor in (gethash from graph) do
                 (let ((paths (walk2 neighbor graph visited twice)))
                   (loop for path in paths do
                     (if path (setf res (append (cons (cons from path) nil) res)) nil))))
               (if (small-cave-p from) (setf (gethash from visited) nil)))))
     res))
 
-(defun day11-1 (graph)
+(defun day12-1 (graph)
   (list-length (walk1 "start" graph (make-hash-table :test 'equal))))
 
-(defun day11-2 (graph)
+(defun day12-2 (graph)
   (list-length (walk2 "start" graph (make-hash-table :test 'equal) nil)))
 
 (defun run ()
   (with-open-file (foo "../inputs/day12")
     (let* ((graph (lines->graph (file->lines foo))))
       (format t "Day12:~%Solution 1: ~a~%Solution 2: ~a~%"
-              (day11-1 graph)
-              (day11-2 graph)))))
+              (day12-1 graph)
+              (day12-2 graph)))))
 
 (run)
