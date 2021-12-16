@@ -88,14 +88,12 @@
     ((equal (cadr packet) 5) ; greater than packet
      (if (apply #'> (mapcar #'eval-packet (caddr packet))) 1 0))
     ((equal (cadr packet) 6) ; lesser than packet
-     (if  (apply #'< (mapcar #'eval-packet (caddr packet))) 1 0))
+     (if (apply #'< (mapcar #'eval-packet (caddr packet))) 1 0))
     ((equal (cadr packet) 7) ; equal than packet
-     (if  (apply #'= (mapcar #'eval-packet (caddr packet))) 1 0))))
+     (if (apply #'= (mapcar #'eval-packet (caddr packet))) 1 0))))
 
 (defun day16-1 (packets) (sum-version packets))
-
-(defun day16-2 (packets) (eval-packet packets)
-  )
+(defun day16-2 (packets) (eval-packet packets))
 
 (defun run ()
   (with-open-file (foo "../inputs/day16")
