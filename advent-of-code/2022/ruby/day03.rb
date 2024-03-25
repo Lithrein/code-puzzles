@@ -1,0 +1,2 @@
+File.open('../inputs/day03').readlines.map(&:chomp).map { |x| (x[0..x.size/2-1].split('') & x[x.size/2..-1].split(''))[0] }.map { |x| if /[[:lower:]]/.match(x) then x.ord - 96 else x.ord - 65 + 27 end }.sum
+File.open('../inputs/day03').readlines.map(&:chomp).each_slice(3).map { |l| (l[0].split('') & l[1].split('') & l[2].split(''))[0] }.map { |x| if /[[:lower:]]/.match(x) then x.ord - 96 else x.ord - 65 + 27 end }.sum
