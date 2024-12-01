@@ -1,0 +1,98 @@
+(macro defun (fn-name typ &body body)
+  (let ((docp (stringp (car body))))
+  `(%:if ((defined PROCESS_HEADER)
+           ,(if docp `(def ,fn-name ,typ ,(car body))
+                     `(def ,fn-name ,typ)))
+          (t (def ,fn-name ,typ ,@body)))))
+
+(macro local-defun (fn-name typ &body body)
+  `(%:if ((! (defined PROCESS_HEADER)) (def ,fn-name ,typ ,@body))))
+
+(macro local-defvar (var-name typ &body body)
+  `(%:if ((! (defined PROCESS_HEADER)) (def (,var-name :linkage static) ,typ ,@body))))
+
+(macro definline (fn-name typ &body body)
+  (if (listp fn-name)
+    `(%:if ((defined PROCESS_HEADER) (def (,@fn-name :inline always) ,typ ,@body)))
+    `(%:if ((defined PROCESS_HEADER) (def (,fn-name :inline always) ,typ ,@body)))))
+
+(macro deftype (type definition)
+  `(def ,type (typedef ,definition)))
+
+(macro local-deftype (type definition)
+  `(%:if ((! (defined PROCESS_HEADER)) (deftype ,type ,definition))))
+
+(macro global-deftype (type definition)
+  `(%:if ((defined PROCESS_HEADER) (deftype ,type ,definition))))
+
+;;
+;; Specialized control macros
+;;
+
+(macro when (condition &body body)
+  `(if ,condition
+    (prog
+      ,@body)))
+
+(macro unless (condition &body body)
+  `(if (! ,condition)
+     (prog
+       ,@body)))
+
+(macro cond (fst &body rest)
+  (if rest
+    (if (&& (listp (car rest)) (== (car (car rest)) 't))
+      `(if ,(car fst) (prog ,@(cdr fst))
+           (prog ,@(cdr (car rest))))
+      `(if ,(car fst) (prog ,@(cdr fst))
+           (cond ,@rest)))
+    `(if ,(car fst) (prog ,@(cdr fst)))))
+
+;;
+;; Anaphoric macros
+;;
+
+(macro awhen (condition &body body)
+  `(prog
+     (def it int ,condition)
+     (when it ,@body)))
+
+;;
+;; Looping constructs
+;;
+
+(macro loop (&body body)
+  `(while 1 ,@body))
+
+;;
+;; Error Handling
+;;
+
+(macro unwind-protect (form &body cleanup-forms)
+  (let ((cleanup (gensym "cleanup"))
+        (result  (gensym "result")))
+    `(prog
+       (def ,result int 0)
+       (macrolet ((return (expr)
+                      `(prog
+                        (= ,',result ,expr)
+                        (goto ,',cleanup))))
+        ,form)
+        (label ,cleanup)
+        ,@cleanup-forms
+       (return ,result))))
+
+(macro with-open-file ((var filename mode) &body body)
+  `(prog
+    (def ,var (ptr FILE) NULL)
+    (unwind-protect
+     (prog*
+        (= ,var (fopen ,filename ,mode))
+        (unless ,var
+          (fprintf stderr
+                   "Could not open file: %s with mode: %s\n"
+                   ,filename ,mode)
+          (return -1))
+        ,@body)
+      (if ,var
+        (fclose ,var)))))

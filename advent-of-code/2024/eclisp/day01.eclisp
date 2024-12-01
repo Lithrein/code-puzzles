@@ -1,0 +1,46 @@
+(%:include <stdio.h>)
+(%:include <stdlib.h>)
+
+(%:include "macros.eclisph")
+(%:include "day01.h")
+
+(%:define NB_ITEMS 1000)
+(%:define MAX_VALUE 99999)
+
+(local-defun cmp_int (-> int (a (ptr const void)) (b (ptr const void)))
+  (def _a int (* (cast (ptr int) a)))
+  (def _b int (* (cast (ptr int) b)))
+  (return (- _a _b)))
+
+(local-defun compute_freqs
+  (-> void (arr (ptr int)) (len int) (freqs (ptr int)))
+  (for (def i int 0) (< i NB_ITEMS) (.++ i)
+    (.++ (aref freqs (aref arr i)))))
+
+(local-defun main (-> int (argc (int)) (argv (ptr ptr char)))
+  (def arr0  (array NB_ITEMS int) '(0))
+  (def arr1  (array NB_ITEMS int) '(0))
+  (def freqs (array (+ MAX_VALUE 1) int) '(0))
+  (def sum1 int 0)
+  (def sum2 int 0)
+
+  (with-open-file (file "../inputs/day01" "r")
+    (for (def i int 0) (< i NB_ITEMS) (.++ i)
+      (when (!= (fscanf file "%d   %d" (& (aref arr0 i))
+                                       (& (aref arr1 i)))
+                 2)
+        (printf "Bad format")
+        (return -1)))
+    (compute_freqs arr1 NB_ITEMS freqs)
+
+    (qsort arr0 NB_ITEMS (sizeof (%type int)) cmp_int)
+    (qsort arr1 NB_ITEMS (sizeof (%type int)) cmp_int)
+
+    (for (def i int 0) (< i NB_ITEMS) (.++ i)
+      (+= sum1 (abs (- (aref arr0 i) (aref arr1 i))))
+      (+= sum2 (* (aref arr0 i) (aref freqs (aref arr0 i)))))
+  
+    (printf "Part1: %d\n" sum1)
+    (printf "Part2: %d\n" sum2)
+
+    (return 0)))
