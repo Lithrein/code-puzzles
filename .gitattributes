@@ -1,0 +1,2 @@
+*.eclisp linguist-language=Clojure
+*.eclisph linguist-language=Clojure
